@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.example.demo.domain.User" table="hibernate_test_table" dynamic-insert="true" dynamic-update="true">
+        <!--
+        dynamic-insert: 动态插入,如果插入的字段为null或者空,则在执行插入语句的时候不会填入相应字段;
+        例如:
+        Hibernate:
+        insert
+        into
+            hibernate_test_table
+            (username, password)
+        values
+            (?, ?)
+        此时便不会插入未执行的age字段
+        -->
+
+        <!--
+        dynamic-update:动态更新;与动态插入类似,如果更新一条数据其中不包含某些字段,则在update时不会填入该字段;
+        如果更改后的结果与更改前一致,则不会触发update语句
+        -->
+
+
+
+        <id name="uid" column="id" type="java.lang.Integer">
+            <!--主键生成的策略；native对应自动增长-->
+            <generator class="native"/>
+            <!--
+            关于主键策略:
+            increment:由hibernate进行主键增长的维护,会先进行max()查询id最大值,有线程安全问题不推荐使用;由此策略生成的表不会自动递增
+            identity:由sql(例如mysql的auto_increment)维护自动增长
+            squence:由Oracle来维护,当数据库为Oracle时使用
+            hilo:由hibernate自己的hilo算法维护,几乎不用
+            native:自动选择identity squence hilo其中一种
+            uuid:使用uuid为主键,没有 - ,需要将主键设置为String
+            assigned:依据自然主键,由程序(开发者)自己维护,需要手动填入主键
+            -->
+        </id>
+
+        <!--如果和表中的字段名相同可以省略column-->
+        <!--type为hibernate与sql中对应的类型,可以省略,省略时会根据实体类来决定-->
+        <!--type中data的一些补充:date:单纯年月日,datetime:时间,timeStamp:unix秒数-->
+        <!--length:该字段的长度-->
+        <property name="username" type="java.lang.String" length="20"/>
+        <property name="password"/>
+        <property name="age"/>
+    </class>
+</hibernate-mapping>

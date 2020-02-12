@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!--配置数据库-->
+<!--        <property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mariadb://192.168.1.90:3306/hibernate-for-test</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">zou9RYdAGW2MKoBY</property>-->
+
+        <!--是否在终端显示sql语句-->
+        <property name="show_sql">true</property>
+        <!--是否格式化sql语句,会进行自动换行-->
+        <property name="format_sql">true</property>
+        <!--是否自动提交-->
+        <property name="hibernate.connection.autocommit">true</property>
+        <!--开启与当前线程绑定session的功能,用于getCurrentSession()-->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!--ddl:data definition language,数据定义语言,定义数据库对象,如create alert drop-->
+        <!--dml:data manipulation language,数据表操作语言,定义数据库记录,如insert update delete-->
+        <!--因此,↓为自动配置映射文件与数据库表的关系,可以填入以下3个关键词:
+            update(常用):如果没有表则自动创建;如果与数据库字段不一致会更新
+                        (需要在实体类中插入字段(get set),和hbm.xml中插入property);
+            create:每次启动hibernate会自动创建表
+            create-drop:每次自动创建,执行完后会自动删除表
+            validate:如果与数据库字段不一致会抛出异常-->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        
+        <!--连接池配置，此处用hikaricp-->
+        <property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+        <property name="hibernate.hikari.minimumIdle">5</property>
+        <property name="hibernate.hikari.dataSourceClassName">org.mariadb.jdbc.MariaDbPoolDataSource</property>
+        <property name="hibernate.hikari.dataSource.url">jdbc:mariadb://192.168.1.90:3306/hibernate-for-test</property>
+        <property name="hibernate.hikari.dataSource.user">root</property>
+        <property name="hibernate.hikari.dataSource.password">zou9RYdAGW2MKoBY</property>
+
+        <!--事务隔离等级,三级为4,因为01248-->
+        <property name="hibernate.connection.isolation">4</property>
+
+        <!--指定sql的方言;例如mysql的limit和Oracle的rownum都是分页;dialect:方言-->
+        <property name="hibernate.dialect">org.hibernate.dialect.MariaDB53Dialect</property>
+        
+        <!--开启二级缓存-->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <!--指定缓存的提供者(依赖hibernate-ehcache)--><!--另外hibernate.cache.provider_class也可以用于指定二级缓存提供者,但4.0后不再推荐使用该类-->
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.internal.SingletonEhcacheRegionFactory</property>
+        <!--开启缓存查询(可选),可以缓存hql语句-->
+        <property name="hibernate.cache.use_query_cache">true</property>
+        <!--也可另外指定二级缓存配置文件的位置-->
+        <property name="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</property>
+
+
+        <!--配置实体类的映射文件，路径需要用/-->
+        <mapping resource="com/example/demo/domain/User.hbm.xml" />
+        <mapping resource="com/example/demo/domain/Customer.hbm.xml" />
+        <mapping resource="com/example/demo/domain/Order.hbm.xml" />
+        <mapping resource="com/example/demo/domain/Student.hbm.xml" />
+        <mapping resource="com/example/demo/domain/Course.hbm.xml" />
+        <mapping resource="com/example/demo/domain/Company.hbm.xml" />
+<!--        <mapping resource="com/example/demo/domain/CompanyAddress.hbm.xml" />-->
+        <mapping resource="com/example/demo/domain/CompanyAddress2.hbm.xml" />
+
+
+        <!--配置类缓存的对象;也可以放在实体类hbm.xml中;需要放在mapping标签后-->
+        <class-cache class="com.example.demo.domain.User" usage="read-only"/>
+        <class-cache class="com.example.demo.domain.Order" usage="read-only"/>
+        <!--
+            也可以通过注解,在需要的类上添加↓
+            @org.hibernate.annotations.Cache(usage =  CacheConcurrencyStrategy.READ_WRITE)
+        -->
+
+        <!--配置集合缓存,需要同时设置类的缓存对象-->
+        <collection-cache collection="com.example.demo.domain.Customer.orders" usage="read-only"/>
+    </session-factory>
+</hibernate-configuration>
