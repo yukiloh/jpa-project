@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">-->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <!--
+        配置persistence-unit节点
+        持久化单元
+        name:持久化单元名称
+        transaction-type:事务管理方式
+        JTA:分布式事务管理（多个数据库）
+        RESOURCE_LOCAL 本地事务管理(一个数据库)
+    -->
+    <persistence-unit name="myJpa" transaction-type="RESOURCE_LOCAL">
+        <!--jpA实现方式HibernatePersistenceProvider-->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!--数据库信息-->
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://192.168.1.90:3306/jpa-for-test"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="zou9RYdAGW2MKoBY"/>
+
+            <!--
+            可选配置：配置jpa实现方式的配置
+            显示SQL语句；
+            自动创建数据库表:
+            create创建数据表如果有表先删后建
+            update  创建表如果有表不创建表
+            none 不创建表
+            -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.format_sql" value = "true"/>
+
+
+        </properties>
+
+    </persistence-unit>
+</persistence>

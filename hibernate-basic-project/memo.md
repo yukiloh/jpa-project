@@ -1,4 +1,8 @@
 # hibernate 笔记
+hibernate是orm框架，实现了JPA标准
+orm：对象关系映射框架
+所以hibernate自始至终都是围绕着对象而不是记录
+
 
 #### 配置核心文件: hibernate.cfg.xml
 

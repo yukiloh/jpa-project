@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://192.168.1.90:3306/jpa-for-test
+    username: root
+    password: zou9RYdAGW2MKoBY
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
