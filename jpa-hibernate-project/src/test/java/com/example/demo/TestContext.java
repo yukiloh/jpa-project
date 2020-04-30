@@ -125,7 +125,7 @@ public class TestContext {
 
 
 
-        @AfterAll
+    @AfterAll
     public static void after() {
         System.out.println("Closing...");
         if (entityManager.isOpen()) entityManager.close();

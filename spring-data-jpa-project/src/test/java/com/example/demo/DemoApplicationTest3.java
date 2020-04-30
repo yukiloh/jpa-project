@@ -10,8 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.util.Arrays;
@@ -19,42 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-class DemoApplicationTest2 {
+class DemoApplicationTest3 {
     @Autowired
     private UserDao userDao;
-
-    //通过jpql进行查询
-    @Test
-    @Transactional
-    @Rollback(false)    //spring默认会进行回滚,需要关闭
-    void contextLoads3() {
-        //通过jpql查询
-        User user = userDao.findOneByNameWithJPQL("狗蛋");
-        System.out.println(user);
-
-        //更新,需要开启事务
-        userDao.updateNameByIdWithJPQL(1,"狗蛋蛋");
-    }
-
-    //其他查询方式
-    @Test
-    void contextLoads4() {
-        //通过sql语句查询
-        List<User> list = userDao.findAllWithSQL();
-        System.out.println(Arrays.toString(list.toArray()));
-
-
-        //通过jpa规定的命名规则进行查询
-        User user = userDao.findByUsername("狗蛋蛋");
-        System.out.println(user);
-
-        User user1 = userDao.findByUsernameLike("%狗蛋%");
-        System.out.println(user1);
-
-        //其他命名规则可以参考:https://www.cnblogs.com/chenglc/p/11226693.html
-        //↑页面中中搜索:方法名称命名规则查询
-    }
-
 
     //Specification,动态查询的基础
     @Test
@@ -79,7 +44,7 @@ class DemoApplicationTest2 {
     }
 
 
-    //Specification的模糊查询
+    //Specification,模糊查询
     @Test
     void contextLoads6() {
 
@@ -117,7 +82,6 @@ class DemoApplicationTest2 {
         System.out.println(content);
         System.out.println("all records: "+totalElements);
         System.out.println("all pages: "+totalPages);
-
 
     }
 
