@@ -45,7 +45,7 @@
 - 字段取名时,依然需要遵循驼峰,否则会导致命名规则查询失效.另外hibernate会自动转换为a_b_c...
 - 关于mariaDB,5.5下未发现dialect报错,但10.x存在,因此需要在yml中设置```(jpa:)database-platform: org.hibernate.dialect.MariaDBDialect```
 
-- 关于date类型
+- 关于jpa中的date类型
 ```java
 //通过Temporal可以设置数据库的日期类型
 
@@ -57,3 +57,10 @@ private Date date;
 @Temporal(TemporalType.TIME)
 private Date time;
 ```
+也可以直接设置为sql类型,他们之间的映射关系为
+
+DATE ：等于java.sql.Date
+
+TIME ：等于java.sql.Time
+
+TIMESTAMP ：等于java.sql.Timestamp 
