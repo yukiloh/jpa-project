@@ -12,7 +12,8 @@ import java.util.List;
 
 @Repository
 //Specification:规格,类似于hibernate的criteria查询
-//子   JpaRepository(jpa操作) < PagingAndSortingRepository(分页排序) < CrudRepository(基础查询)    父
+//他们的继承关系
+//子类|   JpaRepository(jpa操作) < PagingAndSortingRepository(分页排序) < CrudRepository(基础查询)    |父类
 //JpaRepository的泛型,1.对象的类型,2.主键的类型
 public interface UserDao extends JpaRepository<User,Integer>, JpaSpecificationExecutor<User>{
 
