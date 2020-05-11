@@ -120,6 +120,16 @@ class DemoApplicationTest4 {
         roleDao.save(role);
     }
 
+    @Test
+    @Transactional
+    @Rollback(false)   //原本就是spring的注解,主要就是禁用测试环境中回滚的问题
+    void contextLoad3() {
+        Customer customer = customerDao.findById(1).isPresent()?customerDao.findById(1).get():null;
+        if (customer!=null) {
+            customer.setCustomerName("狗蛋蛋");
+            customerDao.save(customer);
+        }
 
+    }
 
 }

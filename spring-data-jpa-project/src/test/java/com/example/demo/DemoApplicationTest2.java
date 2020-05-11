@@ -26,7 +26,7 @@ class DemoApplicationTest2 {
     //通过jpql进行查询
     @Test
     @Transactional
-    @Rollback(false)    //spring默认会进行回滚,需要关闭
+    @Rollback(false)    //因为在@Test测试环境中,需要禁止回滚; 正常开发环境是不需要的
     void contextLoads3() {
         //通过jpql查询
         User user = userDao.findOneByNameWithJPQL("狗蛋");
