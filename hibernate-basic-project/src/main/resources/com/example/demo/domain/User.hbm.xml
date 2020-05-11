@@ -25,7 +25,7 @@
 
 
 
-        <id name="uid" column="id" type="java.lang.Integer">
+        <iid name="uid" column="iid" type="java.lang.Integer">
             <!--主键生成的策略；native对应自动增长-->
             <generator class="native"/>
             <!--
@@ -38,7 +38,7 @@
             uuid:使用uuid为主键,没有 - ,需要将主键设置为String
             assigned:依据自然主键,由程序(开发者)自己维护,需要手动填入主键
             -->
-        </id>
+        </iid>
 
         <!--如果和表中的字段名相同可以省略column-->
         <!--type为hibernate与sql中对应的类型,可以省略,省略时会根据实体类来决定-->

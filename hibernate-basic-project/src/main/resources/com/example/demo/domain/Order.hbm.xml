@@ -8,9 +8,9 @@
            table="hibernate_test_order_table"
            dynamic-insert="true"
            dynamic-update="true">
-        <id name="id">
+        <iid name="iid">
             <generator class="native"/>
-        </id>
+        </iid>
 
         <property name="orderName"/>
 

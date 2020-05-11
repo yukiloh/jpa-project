@@ -7,9 +7,9 @@
            table="hibernate_test_course_table"
            dynamic-insert="true"
            dynamic-update="true">
-        <id name="cid">
+        <iid name="cid">
             <generator class="native"/>
-        </id>
+        </iid>
 
         <property name="courseName"/>
 

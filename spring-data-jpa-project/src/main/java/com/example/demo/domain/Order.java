@@ -16,6 +16,7 @@ public class Order {
     //配置一对多的关系
     @ManyToOne(targetEntity = Customer.class)
     //和customer中的一样,name:外键名,referencedColumnName:所对应的主键名
+    //foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
     @JoinColumn(name = "order_cid",referencedColumnName = "cid")
     private Customer customer;
 
@@ -26,6 +27,13 @@ public class Order {
                 "oid=" + oid +
                 ", orderName='" + orderName + '\'' +
                 '}';
+    }
+
+    public Order() {
+    }
+
+    public Order(String orderName) {
+        this.orderName = orderName;
     }
 
     public Customer getCustomer() {

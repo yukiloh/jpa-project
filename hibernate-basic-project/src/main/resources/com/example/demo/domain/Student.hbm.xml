@@ -9,9 +9,9 @@
            dynamic-update="true"
            lazy="false"
     >
-        <id name="sid">
+        <iid name="sid">
             <generator class="native"/>
-        </id>
+        </iid>
 
         <property name="studentName"/>
 

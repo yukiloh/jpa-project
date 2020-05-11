@@ -7,12 +7,12 @@
            table="hibernate_test_company_address_2_table"
            dynamic-insert="true"
            dynamic-update="true">
-        <id name="id">
+        <iid name="iid">
             <!--将生成策略改为foreign-->
             <generator class="foreign">
                 <param name="property">company</param>
             </generator>
-        </id>
+        </iid>
 
         <property name="address"/>
 

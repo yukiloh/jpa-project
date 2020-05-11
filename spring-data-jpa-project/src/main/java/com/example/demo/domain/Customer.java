@@ -25,6 +25,7 @@ public class Customer {
     //cascade:级联操作;merge:会执行合并操作,persist:保存,remove:删除,all:全执行
     @OneToMany(mappedBy = "customer",cascade = {CascadeType.ALL})
     private Set<Order> orders = new HashSet<>();
+//    private Set<Order> orders;
 
     @Override
     public String toString() {

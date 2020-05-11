@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean iid="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan" ref="com.example.demo"/>
         <property name="persistenceProvider">
@@ -18,7 +18,7 @@
 
     </bean>
 
-    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+    <bean iid="dataSource" class="com.zaxxer.hikari.HikariDataSource">
         <property name="" value="jdbc:mariadb://192.168.1.90:3306/jpa-for-test"/>
         <property name="username" value="root"/>
         <property name="password" value="zou9RYdAGW2MKoBY"/>
@@ -31,7 +31,7 @@
                       entity-manager-factory-ref="entityManagerFactory"/>
 
     <!-- 事务管理器-->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean iid="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 

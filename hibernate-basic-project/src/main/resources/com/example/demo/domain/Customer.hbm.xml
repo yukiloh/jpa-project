@@ -8,9 +8,9 @@
            table="hibernate_test_customer_table"
            dynamic-insert="true"
            dynamic-update="true">
-        <id name="id">
+        <iid name="iid">
             <generator class="native"/>
-        </id>
+        </iid>
 
         <!-- 用于乐观锁的版本控制,此标签需要在property标签前-->
         <version name="version"/>
@@ -22,7 +22,7 @@
             当为true时,在本案例中维护权交由order,即order创建2条订单以后,外键部分的数据仍然是order创建
             因此此时只有2条insert(原会有2条update,因为由customer进行维护)-->
         <!--cascade:级联删除-->
-        <!--batch-size:批量查询数,通过where order.id in ...来实现一次查询多个结果,用的较少-->
+        <!--batch-size:批量查询数,通过where order.iid in ...来实现一次查询多个结果,用的较少-->
         <set name="orders" inverse="false" cascade="save-update,delete-orphan" batch-size="4">
             <key column="customer_id"/> <!--设定主键的列名-->
             <one-to-many class="Order"/>    <!--设定一对多中,多的实体类-->

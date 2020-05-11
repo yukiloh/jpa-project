@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 
 @SpringBootTest
@@ -39,16 +40,19 @@ class DemoApplicationTest4 {
     void contextLoads() {
         //和hibernate中一样
         Customer customer = new Customer();
-        customer.setCustomerName("狗蛋4");
+        customer.setCustomerName("狗蛋6");
 
         Order order = new Order();
-        order.setOrderName("板砖");
+        order.setOrderName("板砖3");
 
-        //让客户拥有订单,建立关系,否则order中的外键为null!
-        customer.getOrders().add(order);
 
-        //也可以建立双向关系(让订单属于客户),但容易出现问题
+        //当由一来维护外键时,让客户拥有订单,建立关系,否则order中的外键为null!
+//        customer.getOrders().add(order);
+
+        //当由多来维护外键时,让订单属于客户.这里案例使用多来维护
         order.setCustomer(customer);
+
+        //2者都写浪费性能,可能造成不确定影响
 
         //客户拥有订单时,会执行insert,insert,update
         //订单属于客户时,会执行insert,insert,没有update
@@ -118,18 +122,6 @@ class DemoApplicationTest4 {
         //保存时也可以设置一方的cascade进行级联操作
         playerDao.save(player);
         roleDao.save(role);
-    }
-
-    @Test
-    @Transactional
-    @Rollback(false)   //原本就是spring的注解,主要就是禁用测试环境中回滚的问题
-    void contextLoad3() {
-        Customer customer = customerDao.findById(1).isPresent()?customerDao.findById(1).get():null;
-        if (customer!=null) {
-            customer.setCustomerName("狗蛋蛋");
-            customerDao.save(customer);
-        }
-
     }
 
 }
