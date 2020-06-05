@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.domain.User;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -36,6 +37,7 @@ public interface UserDao extends JpaRepository<User,Integer>, JpaSpecificationEx
 
     //通过命名规则查询
     User findByUsernameLike(String username);
+    List<User> findByUsernameLike(String username, Pageable pageable);
     User findByUsername(String username);
 
     //其他:https://www.cnblogs.com/chenglc/p/11226693.html

@@ -106,6 +106,7 @@ class DemoApplicationTest2 {
     @Test
     void contextLoads7() {
         //Pageable是接口,PageRequest是其实现类,可以alt+ctrl+B查看到接口的实现类
+        // https://www.baeldung.com/jpa-limit-query-results
         Pageable pageable = PageRequest.of(0,10);
         Page<User> list = userDao.findAll(pageable);
 

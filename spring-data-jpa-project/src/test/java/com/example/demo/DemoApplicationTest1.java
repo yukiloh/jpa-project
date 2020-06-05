@@ -5,6 +5,7 @@ import com.example.demo.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Example;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -35,7 +36,7 @@ class DemoApplicationTest1 {
 
     @Test
     void contextLoads1() {
-        //统计
+        //统计,简单的聚合
         System.out.println("------------------user count: "+userDao.count());
 
         //判断id是否存在
@@ -47,15 +48,13 @@ class DemoApplicationTest1 {
     }
 
 
-    //get,另一种查询的方式
+    //Example.of的查询(2020年5月16日,新增,没有测试)
     @Test
-    @Transactional  //开启事务
     void contextLoads2() {
-        User user = userDao.getOne(1);  //需要开启事务支持
-        System.out.println(user);
-        //二者的区别
-        //findOne: 立即加载
-        //getOne: 延迟加载
+        User user = new User();
+        user.setUsername("大柱");
+        long count = userDao.count(Example.of(user));
+        System.out.println(count);
     }
 
 }

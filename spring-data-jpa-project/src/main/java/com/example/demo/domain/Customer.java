@@ -21,7 +21,7 @@ public class Customer {
     //配置外键与主表(customer表)的关系,name为外键的字段名,referencedColumnName为所对应主表的字段名
     @JoinColumn(name = "order_cid",referencedColumnName = "cid")*/
 
-    //一方放弃外键维护,mappedBy代表另一方(多表)中的属性的名称
+    //一方放弃外键维护,mappedBy 代表另一方(多表)中的属性的名称
     //cascade:级联操作;merge:会执行合并操作,persist:保存,remove:删除,all:全执行
     @OneToMany(mappedBy = "customer",cascade = {CascadeType.ALL})
     private Set<Order> orders = new HashSet<>();

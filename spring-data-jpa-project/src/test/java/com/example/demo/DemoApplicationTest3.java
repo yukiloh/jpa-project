@@ -83,6 +83,12 @@ class DemoApplicationTest3 {
         System.out.println("all records: "+totalElements);
         System.out.println("all pages: "+totalPages);
 
+        System.out.println("=====================");
+
+        //如果是pageable和其他限制条件结合,此处列举通过命名规则查询来限制username的方式
+        List<User> userList = userDao.findByUsernameLike("%%", pageable);
+        userList.forEach(user -> System.out.println(user));
+
     }
 
 
