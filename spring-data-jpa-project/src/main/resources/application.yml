@@ -16,4 +16,24 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        # 开启统计信息日志.可能存在无法统计的的问题
+        # 参考:https://stackoverflow.com/questions/57478685/spring-jpa-properties-hibernate-generate-statistics-true-not-working
+        generate_statistics: true
+
+        # 开启批量插入.主键策略必须为SEQUENCE,否则不起作用
+        # 参考: https://blog.csdn.net/jisu30miao1225/article/details/103235218
+        jdbc:
+          batch_size: 100
+          batch_versioned_data: true
+
+        # 开启批量插入和更新
+        order_inserts: true
+        order_updates: true
+
+
+#spring.jpa.properties.hibernate.jdbc.batch_size=500
+#spring.jpa.properties.hibernate.jdbc.batch_versioned_data=true
+#spring.jpa.properties.hibernate.order_inserts=true
+#spring.jpa.properties.hibernate.order_updates =true
+
 

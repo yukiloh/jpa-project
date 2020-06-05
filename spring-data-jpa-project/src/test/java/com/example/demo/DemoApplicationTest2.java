@@ -48,8 +48,10 @@ class DemoApplicationTest2 {
         User user = userDao.findByUsername("狗蛋蛋");
         System.out.println(user);
 
-        User user1 = userDao.findByUsernameLike("%狗蛋%");
-        System.out.println(user1);
+        List<User> users = userDao.findByUsernameLike("%狗蛋%");
+        users.forEach(u -> {
+            System.out.println(u);
+        });
 
         //其他命名规则可以参考:https://www.cnblogs.com/chenglc/p/11226693.html
         //↑页面中中搜索:方法名称命名规则查询

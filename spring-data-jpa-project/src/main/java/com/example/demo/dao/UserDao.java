@@ -36,7 +36,7 @@ public interface UserDao extends JpaRepository<User,Integer>, JpaSpecificationEx
 
 
     //通过命名规则查询
-    User findByUsernameLike(String username);
+    List<User> findByUsernameLike(String username);
     List<User> findByUsernameLike(String username, Pageable pageable);
     User findByUsername(String username);
 

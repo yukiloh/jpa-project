@@ -13,8 +13,8 @@ import javax.persistence.*;
             //添加单个字段索引.也可以在此处添加唯一约束
             @Index(name = "username",columnList = "username",unique = true)
 
-            //添加复合索引,需要保持name相同即可.存在顺序,与最左匹配原则一致
-            ,@Index(name = "username",columnList = "password")
+            //添加复合索引,需要保持name相同即可.存在顺序,与最左匹配原则一致(此处注释,只作为演示)
+//            ,@Index(name = "username",columnList = "password")
 //            ,@Index(name = "username",columnList = "status")      //未添加该字段,此处作为演示
         }
 )
@@ -26,6 +26,14 @@ public class User {
     private String username;
     private String password;
 //    private String status;
+
+    public User() {
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     @Override
     public String toString() {
