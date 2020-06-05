@@ -14,6 +14,7 @@ import java.util.Optional;
 
 /**
  * 用于测试批量操作
+ * 可以查阅此处了解详细: https://www.codejava.net/frameworks/hibernate/how-to-execute-batch-insert-update-in-hibernate
  */
 @SpringBootTest
 class DemoApplicationTest99 {
