@@ -5,11 +5,12 @@ import com.example.demo.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Example;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 /**
@@ -18,8 +19,12 @@ import java.util.Optional;
  */
 @SpringBootTest
 class DemoApplicationTest99 {
+
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     void init() {
@@ -27,8 +32,8 @@ class DemoApplicationTest99 {
     }
 
     /**
-     * 由于maria数据库主键设置为IDENTITY,所以无法使用批量插入
-     * 插入2万个大概需要38秒,删除差不多
+     * 由于maria数据库主键设置为IDENTITY,所以无法使用批量插入(如果mysql类的数据库,jpa中设置主键为Sequence反而会慢很多..)
+     * 插入2千个4秒,2万个大概需要38秒,删除差不多
      * 解决方案无,推荐使用spring-jdbc来实现手动插入(兼容性还挺好)
      */
 
@@ -37,12 +42,45 @@ class DemoApplicationTest99 {
         //创建一个array来保存对象
         ArrayList<User> users = new ArrayList<>();
 
-        for (int i = 0; i < 20000; i++) {
+        for (int i = 0; i < 2000; i++) {
             User user = new User("测试用户" + i, String.valueOf(i));
             users.add(user);
         }
 
         userDao.saveAll(users);
+    }
+
+    /**
+     * 或者可以通过entityManger来插入. em需要手动开启事务(@Transaction)
+     * 感觉无论哪种插入方式速度都差不多,都是一个个对象来执行,而不是批量
+     */
+    @Test
+    @Transactional
+    @Rollback(false)
+    void test() {
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 0; i < 2000; i++) {
+            User user = new User("测试用户" + i, String.valueOf(i));
+            users.add(user);
+        }
+
+        int i = 0;
+        for (User user : users) {
+            entityManager.persist(user);
+            i++;
+
+            //当第100次或全部插入完毕后,刷新em
+            if (i % 100 == 0 || i == users.size()) {
+                try {
+                    entityManager.flush();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    entityManager.clear();
+                }
+
+            }
+        }
     }
 
     /**
@@ -53,4 +91,6 @@ class DemoApplicationTest99 {
         List<User> list = userDao.findByUsernameLike("%测试用户%");
         userDao.deleteAll(list);
     }
+
+
 }
