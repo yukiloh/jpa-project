@@ -47,7 +47,7 @@ PO:persist object 持久化对象
 
 ##### hibernate的类型与sql的类型之间,转换时的对应关系
 关于hibernate与数据库中字段的对应类型
-如果在 entity.hbm.xml 中的 property/iid 没有定义type,则hibernate会根据entity中的属性来定义类型
+如果在 entity.hbm.xml 中的 property/id 没有定义type,则hibernate会根据entity中的属性来定义类型
 例如java中的Integer会对应sql中的integer
 
 ##### 主键生成策略

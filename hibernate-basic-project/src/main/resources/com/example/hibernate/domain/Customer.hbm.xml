@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!--也可以在这里添加包名,class内可以省略全路径名-->
+<hibernate-mapping package="com.example.demo.domain">
+    <class name="com.example.hibernate.domain.Customer"
+           table="hibernate_test_customer_table"
+           dynamic-insert="true"
+           dynamic-update="true">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+
+        <!-- 用于乐观锁的版本控制,此标签需要在property标签前-->
+        <version name="version"/>
+
+        <property name="username"/>
+
+        <!--描述一对多的关系-->
+        <!--inverse:是否反转维护权力;默认为false;
+            当为true时,在本案例中维护权交由order,即order创建2条订单以后,外键部分的数据仍然是order创建
+            因此此时只有2条insert(原会有2条update,因为由customer进行维护)-->
+        <!--cascade:级联删除-->
+        <!--batch-size:批量查询数,通过where order.id in ...来实现一次查询多个结果,用的较少-->
+        <set name="orders" inverse="false" cascade="save-update,delete-orphan" batch-size="4">
+            <key column="customer_id"/> <!--设定主键的列名-->
+            <one-to-many class="com.example.hibernate.domain.Order"/>    <!--设定一对多中,多的实体类-->
+        </set>
+
+        <query name="local_hql_1">from Customer where username = ?1</query>
+    </class>
+
+    <query name="global_hql_1">from Customer where username = ?1</query>
+</hibernate-mapping>

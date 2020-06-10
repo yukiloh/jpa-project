@@ -54,25 +54,25 @@
 
 
         <!--配置实体类的映射文件，路径需要用/-->
-        <mapping resource="com/example/demo/domain/User.hbm.xml" />
-        <mapping resource="com/example/demo/domain/Customer.hbm.xml" />
-        <mapping resource="com/example/demo/domain/Order.hbm.xml" />
-        <mapping resource="com/example/demo/domain/Student.hbm.xml" />
-        <mapping resource="com/example/demo/domain/Course.hbm.xml" />
-        <mapping resource="com/example/demo/domain/Company.hbm.xml" />
+        <mapping resource="com/example/hibernate/domain/User.hbm.xml" />
+        <mapping resource="com/example/hibernate/domain/Customer.hbm.xml" />
+        <mapping resource="com/example/hibernate/domain/Order.hbm.xml" />
+        <mapping resource="com/example/hibernate/domain/Student.hbm.xml" />
+        <mapping resource="com/example/hibernate/domain/Course.hbm.xml" />
+        <mapping resource="com/example/hibernate/domain/Company.hbm.xml" />
 <!--        <mapping resource="com/example/demo/domain/CompanyAddress.hbm.xml" />-->
-        <mapping resource="com/example/demo/domain/CompanyAddress2.hbm.xml" />
+        <mapping resource="com/example/hibernate/domain/CompanyAddress2.hbm.xml" />
 
 
         <!--配置类缓存的对象;也可以放在实体类hbm.xml中;需要放在mapping标签后-->
-        <class-cache class="com.example.demo.domain.User" usage="read-only"/>
-        <class-cache class="com.example.demo.domain.Order" usage="read-only"/>
+        <class-cache class="com.example.hibernate.domain.User" usage="read-only"/>
+        <class-cache class="com.example.hibernate.domain.Order" usage="read-only"/>
         <!--
             也可以通过注解,在需要的类上添加↓
             @org.hibernate.annotations.Cache(usage =  CacheConcurrencyStrategy.READ_WRITE)
         -->
 
         <!--配置集合缓存,需要同时设置类的缓存对象-->
-        <collection-cache collection="com.example.demo.domain.Customer.orders" usage="read-only"/>
+        <collection-cache collection="com.example.hibernate.domain.Customer.orders" usage="read-only"/>
     </session-factory>
 </hibernate-configuration>

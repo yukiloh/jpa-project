@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.example.demo.domain">
+    <class name="com.example.hibernate.domain.Student"
+           table="hibernate_test_student_table"
+           dynamic-insert="true"
+           dynamic-update="true"
+           lazy="false"
+    >
+        <id name="sid">
+            <generator class="native"/>
+        </id>
+
+        <property name="studentName"/>
+
+        <!--多对多的配置-->
+        <!--name:外键的列名;table:中间表名-->
+        <!--fetch:默认为select
+            select:普通查询,当需要何种数据时再去查询其他表
+            join:使用表连接语句查询(左外),一条语句查询
+            subselect:使用子查询,条件中包含select;子查询只可适用于多对多或一对多,因为返回的是一个集合;查询可能为一条语句
+            -->
+        <set name="courses" table="hibernate_test_mom_stu_course_table" cascade="save-update" fetch="select">
+            <key column="sid"/><!--中间表中本模型的id-->
+            <!--class:对应的实体类类--><!--column:中间表中另一侧模型id-->
+            <many-to-many class="com.example.hibernate.domain.Course" column="cid"/>
+        </set>
+    </class>
+</hibernate-mapping>

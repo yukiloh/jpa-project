@@ -7,7 +7,7 @@
 
     <bean iid="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" ref="com.example.demo"/>
+        <property name="packagesToScan" ref="com.example.springDataJpa"/>
         <property name="persistenceProvider">
             <bean class="org.hibernate.jpa.HibernatePersistenceProvider">
                 <property name="generateDdl" value="false"/>
@@ -26,7 +26,7 @@
     </bean>
 
     <!-- spring data jpa的整合-->
-    <jpa:repositories base-package="com.example.demo.dao"
+    <jpa:repositories base-package="com.example.springDataJpa.dao"
                       transaction-manager-ref="transactionManager"
                       entity-manager-factory-ref="entityManagerFactory"/>
 
@@ -35,5 +35,5 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <context:component-scan base-package="com.example.demo"/>
+    <context:component-scan base-package="com.example.springDataJpa"/>
 </beans>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!--也可以在这里添加包名,class内可以省略全路径名-->
+<hibernate-mapping package="com.example.demo.domain">
+    <class name="com.example.hibernate.domain.Order"
+           table="hibernate_test_order_table"
+           dynamic-insert="true"
+           dynamic-update="true">
+        <id name="id">
+            <generator class="native"/>
+        </id>
+
+        <property name="orderName"/>
+
+        <!--描述一对多中,一的关系;name为hibernate中的名称,class对应类文件名,column对应外键名-->
+        <many-to-one name="customer" class="com.example.hibernate.domain.Customer" column="customer_id"/>
+
+    </class>
+</hibernate-mapping>

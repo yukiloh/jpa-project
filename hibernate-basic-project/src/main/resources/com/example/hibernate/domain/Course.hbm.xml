@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.example.demo.domain">
+    <class name="com.example.hibernate.domain.Course"
+           table="hibernate_test_course_table"
+           dynamic-insert="true"
+           dynamic-update="true">
+        <id name="cid">
+            <generator class="native"/>
+        </id>
+
+        <property name="courseName"/>
+
+        <set name="students" table="hibernate_test_mom_stu_course_table">
+            <key column="cid"/>
+            <many-to-many class="com.example.hibernate.domain.Student" column="sid"/>
+        </set>
+
+    </class>
+</hibernate-mapping>
