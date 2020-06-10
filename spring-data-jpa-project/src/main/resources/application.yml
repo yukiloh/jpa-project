@@ -6,15 +6,19 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+
+      #表格生成/更新策略
       #create 启动时删数据库中的表，然后创建，退出时不删除数据表
       #create-drop 启动时删数据库中的表，然后创建，退出时删除数据表 如果表不存在报错
       #update 如果启动时表格式不一致则更新表，原有数据保留
       #validate 项目启动表结构进行校验 如果不一致则报错
+      ddl-auto: update
 
+    # 是否显示sql语句
     show-sql: true
     properties:
       hibernate:
+        # 是否将sql语句格式化
         format_sql: true
         # 开启统计信息日志.可能存在无法统计的的问题
         # 参考:https://stackoverflow.com/questions/57478685/spring-jpa-properties-hibernate-generate-statistics-true-not-working
@@ -23,17 +27,9 @@ spring:
         # 开启批量插入.主键策略必须为SEQUENCE,否则不起作用
         # 参考: https://blog.csdn.net/jisu30miao1225/article/details/103235218
         jdbc:
-          batch_size: 100
+          batch_size: 10
           batch_versioned_data: true
 
         # 开启批量插入和更新
         order_inserts: true
         order_updates: true
-
-
-#spring.jpa.properties.hibernate.jdbc.batch_size=500
-#spring.jpa.properties.hibernate.jdbc.batch_versioned_data=true
-#spring.jpa.properties.hibernate.order_inserts=true
-#spring.jpa.properties.hibernate.order_updates =true
-
-
