@@ -93,3 +93,43 @@ Iterable<User> users = userDao.findAll(john);
 users.forEach(user -> System.out.println(user));
 ```
 具体代码在测试类`JPAQuerydslIntegrationTest`中
+
+#### 依赖
+
+```xml
+<dependencies>
+  <dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-apt</artifactId>
+  </dependency>
+  
+  <dependency>
+    <groupId>com.querydsl</groupId>
+    <artifactId>querydsl-jpa</artifactId>
+  </dependency>
+</dependencies>
+
+```
+
+还有Q类生成插件
+```xml
+<plugin>
+<groupId>com.mysema.maven</groupId>
+<artifactId>apt-maven-plugin</artifactId>
+<version>1.1.3</version>
+<executions>
+  <execution>
+    <goals>
+      <goal>process</goal>
+    </goals>
+    <configuration>
+      <!--指定输出路径-->
+      <outputDirectory>src/main/java/com/example/springDataJpa/domain</outputDirectory>
+      <!-- 配置自己的实体类包的全路径 -->
+      <processor>com.example.springDataJpa.domain</processor>
+    </configuration>
+  </execution>
+</executions>
+</plugin>
+```
+

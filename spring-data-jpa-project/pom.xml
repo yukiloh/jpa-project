@@ -69,8 +69,9 @@
               <goal>process</goal>
             </goals>
             <configuration>
-              <outputDirectory>target/generated-sources/java</outputDirectory>
-              <!-- 这里配置自己的实体类全路径 -->
+              <!--指定输出路径-->
+              <outputDirectory>src/main/java/com/example/springDataJpa/domain</outputDirectory>
+              <!-- 配置自己的实体类包的全路径 -->
               <processor>com.example.springDataJpa.domain</processor>
             </configuration>
           </execution>
