@@ -59,6 +59,8 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
 
+      <!--q类生成插件,通过maven-compile来运行-->
+      <!-- https://github.com/querydsl/apt-maven-plugin/issues -->
       <plugin>
         <groupId>com.mysema.maven</groupId>
         <artifactId>apt-maven-plugin</artifactId>
@@ -69,10 +71,10 @@
               <goal>process</goal>
             </goals>
             <configuration>
-              <!--指定输出路径-->
-              <outputDirectory>src/main/java/com/example/springDataJpa/domain</outputDirectory>
-              <!-- 配置自己的实体类包的全路径 -->
-              <processor>com.example.springDataJpa.domain</processor>
+              <!--官方推荐目录-->
+              <outputDirectory>target/generated-sources/java</outputDirectory>
+              <!-- 类生成器,不需要修改 -->
+              <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
             </configuration>
           </execution>
         </executions>

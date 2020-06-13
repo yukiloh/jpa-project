@@ -1,18 +1,12 @@
 package com.example.springDataJpa.dao;
 
 import com.example.springDataJpa.domain.User;
-import com.example.springDataJpa.domain.QUser;
-import com.querydsl.core.types.dsl.StringExpression;
-import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
-import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
-import org.springframework.data.querydsl.binding.QuerydslBindings;
-import org.springframework.data.querydsl.binding.SingleValueBinding;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,9 +17,10 @@ import java.util.List;
 //他们的继承关系
 //子类|   JpaRepository(jpa操作) < PagingAndSortingRepository(分页排序) < CrudRepository(基础查询)    |父类
 //JpaRepository的泛型,1.对象的类型,2.主键的类型
-//QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser>: 继承querydsl提供的方法,可以进行querydsl方式的查询
+//QuerydslPredicateExecutor<User>: 让dao可以使用querydsl提供的查询方法(findAll等,spring data的接口)
+//QuerydslBinderCustomizer<QUser>: 可以传入自定义的Predicate,在这里进行转义.没深入研究
 public interface UserDao extends JpaRepository<User,Integer>, JpaSpecificationExecutor<User>
-        ,QuerydslPredicateExecutor<User>, QuerydslBinderCustomizer<QUser> {
+        ,QuerydslPredicateExecutor<User>/*, QuerydslBinderCustomizer<QUser>*/ {
 
     //JPQL的使用
     @Query("from User where username = ?1")
@@ -51,7 +46,7 @@ public interface UserDao extends JpaRepository<User,Integer>, JpaSpecificationEx
     User findByUsername(String username);
 
 //    /**
-//     * 继承querydsl的接口后可以进行自定义方法的查询,原理我也没弄懂
+//     * 继承QuerydslBinderCustomizer<QUser>时的配置,进行自定义Predicate
 //     */
 //    @Override
 //    default void customize(

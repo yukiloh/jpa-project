@@ -80,19 +80,25 @@ JPA中的多表操作绕不开外键(不使用外键会非常奇怪)
   - TIME ：等于java.sql.Time
   - TIMESTAMP ：等于java.sql.Timestamp 
   
+---
+
 ### 追加了querydsl的用法
 
 #### 关于querydsl是啥
 
-在jpa之上的查询框架,通过兼容jpa等的api来执行查询  
+在jpa之上的查询框架,通过兼容jpa的api(findAll)来执行查询  
 好处就是比jpa更加直观,例如下面需要查找`username like John`  
+
 ```java
 QUser qUser = QUser.user;
 BooleanExpression john = qUser.username.like("John");
 Iterable<User> users = userDao.findAll(john);
 users.forEach(user -> System.out.println(user));
 ```
-具体代码在测试类`JPAQuerydslIntegrationTest`中
+
+我觉得写criteria真的是要了命了,非常不习惯
+
+具体的代码演示在测试类`JPAQuerydslIntegrationTest`中
 
 #### 依赖
 
@@ -112,7 +118,9 @@ users.forEach(user -> System.out.println(user));
 ```
 
 还有Q类生成插件
+
 ```xml
+<!-- https://github.com/querydsl/apt-maven-plugin -->
 <plugin>
 <groupId>com.mysema.maven</groupId>
 <artifactId>apt-maven-plugin</artifactId>
@@ -123,13 +131,24 @@ users.forEach(user -> System.out.println(user));
       <goal>process</goal>
     </goals>
     <configuration>
-      <!--指定输出路径-->
-      <outputDirectory>src/main/java/com/example/springDataJpa/domain</outputDirectory>
-      <!-- 配置自己的实体类包的全路径 -->
-      <processor>com.example.springDataJpa.domain</processor>
+      <!--
+          指定输出路径,官方写法推荐生成在target目录下
+          因为问题比较多,不建议修改,更不建议手动移动到开发路径下
+          如果出现找不到类或者重复的类的错误,建议mvn:clean mvn:compile
+      -->
+      <outputDirectory>target/generated-sources/java</outputDirectory>
+      <!-- 类生成器,不需要修改 -->
+      <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
     </configuration>
   </execution>
 </executions>
 </plugin>
 ```
 
+### 一些很好的参考资料
+
+这次的案例基本都是知乎学来的  
+知乎: https://zhuanlan.zhihu.com/p/24778422
+
+v2列举了spring官网的方法,中文更贴切  
+v2ex: https://www.v2ex.com/t/350737#reply9
