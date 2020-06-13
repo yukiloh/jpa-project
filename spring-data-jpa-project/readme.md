@@ -81,9 +81,9 @@ JPA中的多表操作绕不开外键(不使用外键会非常奇怪)
   
 ---
 
-### 追加了querydsl的用法
+## 追加了querydsl的用法
 
-#### 关于querydsl是啥
+### 关于querydsl是啥
 
 在jpa之上的查询框架,通过兼容jpa的api(findAll)来执行查询  
 好处就是比jpa更加直观,例如下面需要查找`username like John`  
@@ -94,12 +94,10 @@ BooleanExpression john = qUser.username.like("John");
 Iterable<User> users = userDao.findAll(john);
 users.forEach(user -> System.out.println(user));
 ```
-
+具体的代码演示在测试类`JPAQuerydslIntegrationTest`中  
 我觉得写criteria真的是要了命了,非常不习惯
 
-具体的代码演示在测试类`JPAQuerydslIntegrationTest`中
-
-#### 依赖
+### 依赖
 
 需要使用这2个依赖
 ```xml
@@ -144,6 +142,12 @@ users.forEach(user -> System.out.println(user));
 </executions>
 </plugin>
 ```
+
+### 配置概要
+
+1. 引入2个依赖
+2. 配置apt-maven-plugin,然后通过mvn:compile在target目录下生成q类
+3. 在需要使用的repo/dao接口类中实现`QuerydslPredicateExecutor<T>`
 
 ### 一些很好的参考资料
 
