@@ -43,16 +43,22 @@ public class TestContext3 {
         System.out.println(customer);
         System.out.println(customer1);
 
+    }
 
-        //投影查询,当并非需要查询所有字段时,可以通过一个实体类来接收所需要的字段,此种查询称为投影查询
-        //如果不使用投影,将返回Object[],使用很不方便
-        Query query = session.createQuery("select c.id,c.username from Customer c where id = 1");
-        //Customer customer2 = (Customer) query.uniqueResult(); //错误演示,不可以强转
-        List<Object[]> list = query.list();
-        Object[] obj = list.get(0);
-        System.out.println(obj[0].toString()+obj[1].toString());
 
-        //使用投影查询,提前创建Customer的构造函数
+    //投影查询,当并非需要查询所有字段时,可以通过一个实体类来接收所需要的字段,此种查询称为投影查询
+    @Test
+    public void contextLoad11() {
+
+//        //如果不使用投影,将返回Object[],使用很不方便
+//        Query query1 = session.createQuery("select c.id,c.username from Customer c where id = 1");
+//
+//        //Customer customer2 = (Customer) query1.uniqueResult(); //错误演示,不可以强转
+//        List<Object[]> list = query1.list();
+//        Object[] obj = list.get(0);
+//        System.out.println(obj[0].toString()+obj[1].toString());
+
+        //使用投影查询,在hql中使用new Object(...),需要提前在Customer中创建对应构造函数
         Query query2 = session.createQuery("select new Customer(c.id,c.username) from Customer c where id = 1");
         System.out.println(query2.getSingleResult());
     }

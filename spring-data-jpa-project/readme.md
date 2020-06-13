@@ -62,11 +62,10 @@ JPA中的多表操作绕不开外键(不使用外键会非常奇怪)
 
 - 关于mariaDB,5.5下未发现dialect报错,但10.x存在,因此需要在yml中设置`(jpa:)database-platform: org.hibernate.dialect.MariaDBDialect`  
 
-- 关于jpa中的date类型
+- 关于jpa中的date类型  
+  通过Temporal可以设置数据库的日期类型
   ```java
-  //通过Temporal可以设置数据库的日期类型
-  
-  //设置为日期类型,2020-05-05
+  //设置为日期类型,数据库中会储存2020-05-05
   @Temporal(TemporalType.DATE)
   private Date date;
   
@@ -102,6 +101,7 @@ users.forEach(user -> System.out.println(user));
 
 #### 依赖
 
+需要使用这2个依赖
 ```xml
 <dependencies>
   <dependency>
@@ -117,7 +117,7 @@ users.forEach(user -> System.out.println(user));
 
 ```
 
-还有Q类生成插件
+另外需要Q类生成插件
 
 ```xml
 <!-- https://github.com/querydsl/apt-maven-plugin -->
@@ -134,7 +134,7 @@ users.forEach(user -> System.out.println(user));
       <!--
           指定输出路径,官方写法推荐生成在target目录下
           因为问题比较多,不建议修改,更不建议手动移动到开发路径下
-          如果出现找不到类或者重复的类的错误,建议mvn:clean mvn:compile
+          如果出现找不到类或者重复的类的错误,可以尝试mvn:clean & mvn:compile
       -->
       <outputDirectory>target/generated-sources/java</outputDirectory>
       <!-- 类生成器,不需要修改 -->

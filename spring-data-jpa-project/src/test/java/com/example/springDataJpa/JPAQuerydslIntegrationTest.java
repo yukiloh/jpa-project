@@ -7,6 +7,8 @@ import com.example.springDataJpa.domain.Role;
 import com.example.springDataJpa.domain.User;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.Test;
@@ -33,7 +35,7 @@ class JPAQuerydslIntegrationTest {
 
 
     /**
-     * 一个简单的案例
+     * 一个简单的案例,调用类似springDataJpa的接口来执行查询
      */
     @Test
     void simpleQuery() {
@@ -43,7 +45,7 @@ class JPAQuerydslIntegrationTest {
         //对qUser的对象进行条件限定
         BooleanExpression john = qUser.username.like("John");
 
-        //调用spring-data-jpa的repository进行查询
+        //调用repo下类似springDataJpa接口进行查询(因为实现了QuerydslPredicateExecutor)
         Iterable<User> users = userDao.findAll(john);
 
         //遍历打印结果
@@ -114,7 +116,7 @@ class JPAQuerydslIntegrationTest {
      */
     @Test
     void ManyDynamicQuery() {
-        //需要传入一个em
+        //工厂类中需要传入一个em
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
 
         //选择实体类集,然后执行查询语句
@@ -161,6 +163,96 @@ class JPAQuerydslIntegrationTest {
          */
     }
 
+    /**
+     * 子查询(因为表格简单,因此象征性的演示了以下)
+     */
+    @Test
+    void subQuery() {
+        // 子查询
+//        List<Person> persons = queryFactory.selectFrom(person)
+//                .where(person.children.size().eq(
+//                        JPAExpressions.select(parent.children.size().max())
+//                                .from(parent)))
+//                .fetch();
+        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
+        QUser qUser = QUser.user;
+
+        //子查询语句,使用JPAExpressions来创建查询语句
+        JPQLQuery<Integer> query = JPAExpressions.select(qUser.id).from(qUser).where(qUser.id.eq(2));
+
+        //selectFrom : return (JPAQuery)this.select((Expression)from).from(from)
+        List<User> list = jpaQueryFactory.selectFrom(qUser).where(qUser.id.eq(
+                //进行子查询
+                query
+        )).fetch();
+
+        list.forEach(user -> {
+            System.out.println(user);
+        });
+
+        /**
+         * 结果:
+         * Hibernate:
+         *     select
+         *         user0_.id as id1_5_,
+         *         user0_.password as password2_5_,
+         *         user0_.username as username3_5_
+         *     from
+         *         spring_data_jpa_test_user_table user0_
+         *     where
+         *         user0_.id=(
+         *             select
+         *                 user1_.id
+         *             from
+         *                 spring_data_jpa_test_user_table user1_
+         *             where
+         *                 user1_.id=?
+         *         )
+         * User{id=2, username='大柱', password='251'}
+         */
+
+    }
+    /**
+     * 投影查询
+     */
+    @Test
+    void projectionQuery() {
+        JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
+        QUser qUser = QUser.user;
+
+        List<Tuple> list = jpaQueryFactory.select(qUser.id, qUser.username).from(qUser).fetch();
+
+
+        //获取的list进行遍历
+        list.forEach(tuple -> {
+            // System.out.println(tuple);
+
+            //传入Q类对象,从tuple中获取原型对象
+            Integer id = tuple.get(qUser.id);
+            String name = tuple.get(qUser.username);
+
+            System.out.println(id+"  "+name);
+        });
+        /**
+         * 结果:
+         * Hibernate:
+         *     select
+         *         user0_.id as col_0_0_,
+         *         user0_.username as col_1_0_
+         *     from
+         *         spring_data_jpa_test_user_table user0_
+         * 45530  John
+         * 45532  Linda
+         * 45531  Marry
+         * 2  大柱
+         * 1  狗蛋蛋
+         * 45529  绿灯侠
+         * 45525  蝙蝠侠
+         * 45527  超人
+         * 45526  钢铁侠
+         */
+
+    }
 
 //    /**
 //     * https://www.baeldung.com/rest-api-search-language-spring-data-querydsl
