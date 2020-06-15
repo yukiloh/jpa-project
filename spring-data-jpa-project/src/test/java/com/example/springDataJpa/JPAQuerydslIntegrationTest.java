@@ -168,12 +168,7 @@ class JPAQuerydslIntegrationTest {
      */
     @Test
     void subQuery() {
-        // 子查询
-//        List<Person> persons = queryFactory.selectFrom(person)
-//                .where(person.children.size().eq(
-//                        JPAExpressions.select(parent.children.size().max())
-//                                .from(parent)))
-//                .fetch();
+
         JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(entityManager);
         QUser qUser = QUser.user;
 
@@ -191,7 +186,7 @@ class JPAQuerydslIntegrationTest {
         });
 
         /**
-         * 结果:
+         * 结果:(可以看到where中的确使用了子查询)
          * Hibernate:
          *     select
          *         user0_.id as id1_5_,
@@ -210,6 +205,13 @@ class JPAQuerydslIntegrationTest {
          *         )
          * User{id=2, username='大柱', password='251'}
          */
+
+        // 另一个子查询的用法演示
+//        List<Person> persons = queryFactory.selectFrom(person)
+//                .where(person.children.size().eq(
+//                        JPAExpressions.select(parent.children.size().max())
+//                                .from(parent)))
+//                .fetch();
 
     }
     /**
